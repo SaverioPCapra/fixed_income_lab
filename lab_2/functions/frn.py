@@ -104,5 +104,6 @@ def price_floating_rate_note(settlement_date, maturity_date, discount_curve, cal
     return {"Dirty Price": dirty_price, 
             "Accrued Interest": accrued_interest, 
             "Clean Price": clean_price, 
+            "Coupons": coupons,
             "Discounted Coupons": coupons*discount_curve,
             "Summary Table": summary_table}    

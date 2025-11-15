@@ -77,7 +77,6 @@ def price_coupon_bond(settlement_date, maturity_date, discount_curve, calendar, 
         "discount_curve": discount_curve,
         "cash_flows": cash_flows,
         "discounted_cf": discounted_cash_flows,
-        "discounted_coupons": coupons*discount_curve
     }
 
     summary_table = summary_table_couponbond(input_dictionary)
@@ -85,5 +84,6 @@ def price_coupon_bond(settlement_date, maturity_date, discount_curve, calendar, 
     return {"Dirty Price": dirty_price, 
             "Accrued Interest": accrued_interest, 
             "Clean Price": clean_price, 
+            "Coupons": coupons,
             "Discounted Coupons": coupons*discount_curve,
             "Summary Table": summary_table}    

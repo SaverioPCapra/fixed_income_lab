@@ -58,11 +58,29 @@ def price_swap(settlement_date,
 
     price = np.sum(floating_leg_discounted_cash_flows)-np.sum(fixed_leg_discounted_cash_flows)
 
+    # The multiplier changes the sign of cash flows based on whether you're receiver or sender
+    multiplier = 1
+
     if is_receiver == False:
             price = -price
+            multiplier = -multiplier
 
-    return {"Price": price, 
+
+    ##############
+    floating_leg["Summary Table"]["Cash Flows"] = floating_leg["Coupons"]*multiplier
+    floating_leg["Summary Table"]["Discounted Cash Flows"] = floating_leg["Discounted Coupons"]*multiplier
+
+    fixed_leg["Summary Table"]["Cash Flows"] = -fixed_leg["Coupons"]*multiplier
+    fixed_leg["Summary Table"]["Discounted Cash Flows"] = -fixed_leg["Discounted Coupons"]*multiplier
+
+    summary_table = summary_table_swap(fixed_leg["Summary Table"],
+                                       floating_leg["Summary Table"])
+
+    #########
+
+    return {
+            "Price": price, 
             "Fixed Leg": fixed_leg, 
             "Floating Leg": floating_leg,
-            "Summary Table": summary_table_swap(fixed_leg["Summary Table"],
-                                                floating_leg["Summary Table"])}
+            "Summary Table": summary_table
+            }
