@@ -61,25 +61,28 @@ def set_discount_curve(curve, payment_times, input_discount = True):
     Sets up the discount curve with respect to the appropriate payment times by interpolating the interest rate curve 
     """
 
+    interpolation_kind = "cubic"
+
     if input_discount == True:
-        rates = -np.log(curve.values.reshape(-1))/curve.index
+   
+        numerator_to_interpolate = -np.log(curve.values.reshape(-1))
 
         get_spot_rate = interp1d(
                     curve.index, 
-                    rates, 
-                    kind='linear', 
+                    numerator_to_interpolate, 
+                    kind=interpolation_kind, 
                     fill_value="extrapolate"
                 )
 
-        interpolated_rates = get_spot_rate(payment_times)
-
-        discount_curve = np.exp(-payment_times*interpolated_rates)
+        interpolated_numerator = get_spot_rate(payment_times)
+  
+        discount_curve = np.exp(-interpolated_numerator)
     
     else:
         get_spot_rate = interp1d(
                     curve.index, 
                     curve.values.reshape(-1), 
-                    kind='linear', 
+                    kind=interpolation_kind, 
                     fill_value="extrapolate"
                 )
 
