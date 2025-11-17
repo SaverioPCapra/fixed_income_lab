@@ -61,7 +61,9 @@ def set_discount_curve(curve, payment_times, input_discount = True):
     Sets up the discount curve with respect to the appropriate payment times by interpolating the interest rate curve 
     """
 
-    interpolation_kind = "cubic"
+    ### NOTE: redoit with the CubicSpline function from SciPy
+
+    interpolation_kind = "linear"
 
     if input_discount == True:
    
